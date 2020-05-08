@@ -1,0 +1,79 @@
+/* Java application that "draws" a sequence of crude looking rockets.
+**
+** Author: <Danny>
+** Course: CMPS 134
+** Assignment: #1
+** Collaborated with: <Me>
+** Known Defects: <No known defects>
+*/
+public class DrawRockets {
+   public static void main(String[] args) {
+      drawFirstRocket();
+      drawSpace();
+      drawSecondRocket();
+      drawSpace();
+      drawThirdRocket();
+            
+
+   
+   
+   
+   }
+
+   /* This method outputs some blank space.
+   */
+   public static void drawSpace(){
+      System.out.println();
+      System.out.println();
+      System.out.println();
+   } 
+   public static void inverseV(){
+      System.out.println("   /\\");
+      System.out.println("  /  \\");
+      System.out.println(" /    \\");
+
+   
+   } 
+   public static void usa(){
+      System.out.println("+------+");
+      System.out.println("|United|");
+      System.out.println("|States|");
+      System.out.println("+------+");
+   
+   }
+   public static void u(){
+      System.out.println("|      |");
+      System.out.println("|      |");
+      System.out.println("+------+");
+   }
+   public static void n(){
+      System.out.println("+------+");
+      System.out.println("|      |");
+      System.out.println("|      |");
+     
+   }
+   public static void drawFirstRocket(){
+      inverseV();
+      usa();
+      inverseV();
+    
+   }
+   public static void drawSecondRocket(){
+      inverseV();
+      n();
+      usa();
+      u();
+      inverseV();
+     
+   }
+   public static void drawThirdRocket(){
+      inverseV();
+      n();
+      n();
+      usa();
+      u();
+      u();
+      inverseV(); 
+      System.out.println();    
+   } 
+} 
