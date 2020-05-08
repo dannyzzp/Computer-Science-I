@@ -1,0 +1,124 @@
+/* Java application that produces a formatted printout of a Wind Chill Table after
+** prompting the user to enter the range of temperature values (in F) for the table.
+** The range of wind speeds (in MPH) is set to a default.
+**
+** Author: Danny Zhanpeng Zhang
+** Course: CMPS 134, Spring 2020
+** Assignment: #2
+** Collaborated With: Worked alone.
+** Known Defects: <The addition signs and subtraction signs do not align well as they are in the
+** example>
+*/
+import java.util.Scanner;
+import java.lang.Math;
+import java.util.*;
+public class AS03 {
+
+   static Scanner keyboard = new Scanner(System.in);
+
+   static final double WIND_START =  5.0; //Lower bound in MPH
+   static final double WIND_STOP  = 60.0; //Upper bound in MPH
+   static final double WIND_INCR  =  5.0; //Increment in MPH
+   
+   static final double F_MINIMUM = -45.0; //Absolute lower bound in F
+   static final double F_MAXIMUM =  40.0; //Absolute upper found in F
+   
+   static final int WIDTH = 5;            //The width of each cell in the table
+   static final int PLACES = 1;           //The number of decimal places
+   static final String SEPARATOR = "|";   
+   
+   public static void main(String[] args) {    
+      System.out.println("PMJ's Wind Chill Table...");
+      double TStart = getDouble("Enter F Start:>",keyboard,F_MINIMUM,F_MAXIMUM);
+      double TStop  = getDouble("Enter F Stop:>", keyboard,TStart,F_MAXIMUM);
+      double TIncr  = getDouble("Enter F Delta:>",keyboard,0.1,Math.max(0.1,(TStop-TStart)));
+      printTable(TStart,TStop,TIncr);
+   }
+
+   /* Method that prints the given value in a field of the specified width, with the
+      given number of places to the right of the decimal point.  In the event the
+      magnitude of the value requires more positions than the specified width then
+      the number of digits printed will exceed the specified width. 
+   */
+   static void printDouble(double value, int width, int places) {
+      System.out.printf("%"+width+"."+places+"f",value);
+   }
+	
+	/* Local functional method that implements the "Wind Chill Function". */
+   static double WCF(double TF, double WS) {
+      double result = 0.0;
+      result=35.74+0.6215*TF-35.75*Math.pow(WS,0.16)+0.4275*TF*Math.pow(WS,0.16); 
+      return result;
+   }
+   
+    /** Functional method that prompts the interactive user to enter an integer value,
+    ** reads that value, and validates that it is within the acceptable range of 
+    ** values, as definded by the given arguments.  The process is completed as 
+    ** necessary until an acceptable value is input.  The resultant value is returned.
+    **/
+   static double getDouble(String prompt, Scanner input, double lower, double upper) {
+      double result = 0.0;
+      do {
+         System.out.print(prompt);
+         result = input.nextDouble();
+         if(result < lower) { System.out.println("---> Must be >= " + lower); }
+         if(result > upper) { System.out.println("---> Must be <= " + upper); }
+      } while((result<lower) || (result > upper));
+      return result;
+   }
+   
+   /* Used by printTable to produce a printout of the heading of a WindChill Table 
+   ** using the range of wind speeds indicated by WIND_START, WIND_STOP and WIND_INCR.
+   */
+   public static void printTableHeading() {
+      printFirstRow();
+      printSecondRow(); 
+   }
+     
+   /* Used by printTable to produce a printout of the body of a WindChill Table 
+   ** over the given range of temperatures using the given increment.  The range 
+   ** of wind speeds is set to be the interval defind by WIND_START, WIND_STOP 
+   ** and WIND_INCR.
+   */
+   public static void printTableBody(double start, double stop, double increment) {
+      for(double i=start;i<=stop;i=i+increment){
+         printDouble(i,WIDTH,PLACES);
+         System.out.print(SEPARATOR);
+         for(double j=5.0;j<=60.0;j=j+5.0){
+            double result=WCF(i,j);
+            printDouble(result,WIDTH,PLACES);
+            System.out.print(SEPARATOR);
+         }
+         System.out.println();   
+      } 
+   }
+  
+   /* Produces a printout of a WindChill Table over the given range of temperatures
+   ** using the given increment.  The range of wind speeds is set to be the interval
+   ** defind by WIND_START, WIND_STOP and WIND_INCR.
+   */
+   public static void printTable(double temperatureStart,
+                                 double temperatureStop, 
+                                 double temperatureIncrement) {
+      printTableHeading();
+      printTableBody(temperatureStart, temperatureStop, temperatureIncrement);
+   }
+   
+   public static void printFirstRow(){
+      System.out.print("F/MPH"+SEPARATOR);
+      for(double i=WIND_START;i<=WIND_STOP;i=i+WIND_INCR){
+         printDouble(i,WIDTH,PLACES);
+         System.out.print(SEPARATOR);
+      }
+      System.out.println();
+
+   }
+   
+   public static void printSecondRow(){
+      for(int i=0;i<13;i++){
+         System.out.print("-----+");
+      }
+      System.out.println();
+   }
+     
+}
