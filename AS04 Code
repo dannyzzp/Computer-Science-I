@@ -1,1 +1,88 @@
 
+/* Java application that produces a formatted printout of the result of a dice
+** game called DiceWar2
+** Author: Danny Zhanpeng Zhang
+** Course: CMPS 134, Spring 2020
+** Assignment: #4
+** Collaborated With: Worked alone.
+** Known Defects: <None>
+*/
+public class DiceWar2 {
+   public static void main(String[] args) {
+      System.out.println("DiceWar2:");
+      if(args.length == 4) {
+         String firstName=args[0]+':';//combine names with colons to further format them
+         String secondName=args[2]+':';
+         
+         String name1 = args[0];
+         int balance1 = Integer.parseInt(args[1]);
+         System.out.printf("%-10s %d\n",firstName,balance1);
+         //This is the original code: System.out.println(name1 + ":\t" + balance1);
+         //I modified this to align the rows
+         String name2 = args[2];
+         int balance2 = Integer.parseInt(args[3]);
+         System.out.printf("%-10s %d",secondName,balance2);
+         //This is the original code: System.out.println(name2 + ":\t" + balance2);
+         //I modified this to align the rows
+         
+         System.out.printf("\n\n");
+      
+         Die die1=new Die();
+         Die die2=new Die();
+      
+         while(balance1>0&&balance2>0){
+            die1.roll();
+            die2.roll();
+            
+            int faceValue1=die1.getFaceValue();
+            int faceValue2=die2.getFaceValue();
+            if(faceValue1>=faceValue2){//die1>=die2
+               int diff=faceValue1-faceValue2;
+               if(balance2-diff<=0){//gamerover
+                  diff=balance2;
+                  balance1=balance1+balance2;
+                  balance2=balance2-balance2;                  
+               }
+               else{//game not over
+                  balance2=balance2-diff;
+                  balance1=balance1+diff;
+               }
+            }
+            
+            else{//die2>die1
+               int diff=faceValue2-faceValue1;
+               if(balance1-diff<=0){//gameover
+                  balance2=balance2+balance1;
+                  balance1=balance1-balance1;
+               }
+               else{//game is not over
+                  balance2=balance2+diff;
+                  balance1=balance1-diff;
+                  
+               }
+            }
+         
+            System.out.printf("%-10s rolled %s\n",args[0],die1);
+            System.out.printf("%-10s rolled %s\n",args[2],die2);
+                  
+            System.out.printf("%-10s %d\n",firstName,balance1);
+            System.out.printf("%-10s %d\n",secondName,balance2);
+            
+            System.out.println();
+         }
+         
+         if(balance1==0){
+            System.out.println();
+            System.out.println(args[2]+" Won!!!");   
+         }
+         
+         else{
+            System.out.println();
+            System.out.println(args[0]+" Won!!!");
+         }
+      
+      } else {
+         System.out.println("--->ERROR: missing arguments");
+      }
+   }
+}
