@@ -1,1 +1,129 @@
 
+/* Strings.java
+** Represents a collection of strings.
+** Author: Danny Zhanpeng Zhang
+** Course: CMPS 134, Spring 2020
+** Assignment: #5
+** Collaborated With: Worked alone.
+** Known Defects: <None>
+*/
+import java.util.*;
+public class Strings {
+
+   private String[] array;
+   private int n;
+
+   private static final char COMMA = ',';
+   
+//-----------------------------------------------------------------
+//  Constructor: Uses the given integer to set the capacity of the 
+//  collection.
+//-----------------------------------------------------------------
+   public Strings(int capacity) {
+      array=new String[capacity];//array is initialized to be of length capacity
+      n=0;//n is the counter for array elements
+   }
+
+//-----------------------------------------------------------------
+//  Mutator: Stores the given string in the collection.
+//    Pre-Condition: (getCount() < getCapacity())
+//-----------------------------------------------------------------
+   public void add(String s) {
+      if(n<this.getCapacity()){
+         array[n]=s;//the latest input is added to the end of array
+         n++;//n increses everytime a new string is added
+      }
+      else{
+         //when the array is full, stops the user from adding more strings
+      }
+   }
+
+//-----------------------------------------------------------------
+//  Mutator: Removes the given string from the collection.
+//    Pre-Condition:  (contains(s)) && (count() > 0)
+//    Post-Condition: (post.count() == (pre.count() - 1)
+//-----------------------------------------------------------------
+   public void remove(String s) {
+      int index = indexOf(s);
+      if(index==-1){
+         //does nothing since s is not in the array
+      }
+      else{
+            for(int i=index;i<n;i++){
+               array[i]=array[i+1];//from the removed element to the second last element
+            }
+       
+            array[n-1]="";//the last element
+            n--;//the number of elements in the array minus one
+         
+      }
+   }
+
+//-----------------------------------------------------------------
+//  Accessor: Returns the set capacity of the collection.
+//-----------------------------------------------------------------
+   public int getCapacity() {
+      int result = 0;
+      result=array.length;
+      return result;
+   }
+   
+//-----------------------------------------------------------------
+//  Accessor: Returns the current number of strings in the collection.
+//-----------------------------------------------------------------
+   public int getCount() {
+      int result = 0;
+      result=n;
+      return result;
+   }
+   
+//-----------------------------------------------------------------
+//  Accessor: Returns true if the given string is currently in the
+//  collection.
+//-----------------------------------------------------------------
+   public boolean contains(String s) {
+      boolean result = false;
+      int index=indexOf(s);
+      if(index==-1){//index==-1 means the element is not in the array
+         return result;
+      }
+      else{
+         return true;
+      }
+   }
+   
+//-----------------------------------------------------------------
+//  Returns a string representation of this object.
+//-----------------------------------------------------------------
+   public String toString() {
+      String result = "("+n+":"+this.getCapacity()+") ";
+      if(n>1){//number of current elements in the array is 2 or more
+         for(int i=0;i<n-1;i++){
+            result+=array[i]+COMMA+" ";
+         }   
+         result+=array[n-1];
+      }
+      else if(n==1){//one element currently
+         result+=array[n-1]; 
+      }
+      else{//result stays unchanged when there is no element
+      }
+      return result;
+   }
+   
+///////////////////////////////////////////////////////////////////
+// P r i v a t e   
+///////////////////////////////////////////////////////////////////
+
+// Functional method that returns the index of the given string in the
+// array of strings, or -1 if not found.
+//
+   private int indexOf(String s) {
+      int result = (n - 1);
+      while((result >= 0) && (!s.equals(array[result]))) {
+         result = result - 1;
+      }
+      return result;
+   }
+
+}
